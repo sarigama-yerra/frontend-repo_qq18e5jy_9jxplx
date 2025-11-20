@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import Hero from './components/Hero'
 import Offers from './components/Offers'
 import FAQ from './components/FAQ'
@@ -8,12 +8,29 @@ import PackagesDeep from './components/PackagesDeep'
 import WhyNow from './components/WhyNow'
 import BigCTA from './components/BigCTA'
 import DeepTestimonials from './components/DeepTestimonials'
+import Countdown from './components/Countdown'
+import MiniCTA from './components/MiniCTA'
+import Checkout from './components/Checkout'
 
 function App() {
   const offersRef = useRef(null)
+  const checkoutRef = useRef(null)
   const scrollToOffers = () => {
     offersRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
+  const scrollToCheckout = () => {
+    checkoutRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  // Deadline in ~3 days
+  const deadline = useMemo(() => {
+    const d = new Date()
+    d.setDate(d.getDate() + 3)
+    d.setHours(23, 59, 59, 0)
+    return d.toISOString()
+  }, [])
+
+  const [lastOrderId, setLastOrderId] = useState(null)
 
   return (
     <div className="min-h-screen bg-slate-950 text-blue-100">
@@ -41,10 +58,14 @@ function App() {
 
       {/* Hero */}
       <main className="relative z-10">
+        <section className="max-w-6xl mx-auto px-6 pt-4">
+          <Countdown deadline={deadline} />
+        </section>
         <Hero onPrimaryClick={scrollToOffers} />
 
         {/* Long-form narrative */}
         <Story />
+        <section className="max-w-6xl mx-auto px-6"><MiniCTA onClick={scrollToOffers} /></section>
 
         {/* Pain bullets section */}
         <section className="max-w-6xl mx-auto px-6 py-10">
@@ -75,9 +96,11 @@ function App() {
         <div ref={offersRef}>
           <Offers />
         </div>
+        <section className="max-w-6xl mx-auto px-6 -mt-4"><MiniCTA onClick={scrollToCheckout} label="REZERVIŠI – par mesta preostalo" color="from-emerald-600 to-green-600" /></section>
 
         {/* Deep packages breakdown */}
         <PackagesDeep />
+        <section className="max-w-6xl mx-auto px-6 -mt-6"><MiniCTA onClick={scrollToCheckout} label="REZERVIŠI SVOJ PAKET" /></section>
 
         {/* Social proof headline */}
         <section id="utisci" className="max-w-5xl mx-auto px-6 pt-6">
@@ -89,17 +112,32 @@ function App() {
 
         <Testimonials />
         <DeepTestimonials />
+        <section className="max-w-6xl mx-auto px-6 -mt-6"><MiniCTA onClick={scrollToCheckout} label="UZMI SVOJ ARSENAL – SADA" /></section>
 
         {/* Why now section */}
         <WhyNow />
+        <section className="max-w-6xl mx-auto px-6 -mt-6"><MiniCTA onClick={scrollToCheckout} label="PROMO VREME ISTIČE – REZERVIŠI" color="from-fuchsia-600 to-violet-600" /></section>
 
         {/* FAQ */}
         <div id="faq">
           <FAQ />
         </div>
 
+        {/* Checkout form */}
+        <div ref={checkoutRef}>
+          <Checkout onSubmitted={setLastOrderId} />
+        </div>
+
         {/* Big CTA */}
-        <BigCTA onClick={scrollToOffers} />
+        <BigCTA onClick={scrollToCheckout} />
+
+        {lastOrderId && (
+          <section className="max-w-4xl mx-auto px-6 pb-12 -mt-6">
+            <div className="rounded-xl border border-emerald-400/20 bg-emerald-500/10 p-4 text-emerald-200 text-sm text-center">
+              Rezervacija uspešna. ID: {lastOrderId}
+            </div>
+          </section>
+        )}
       </main>
 
       {/* Footer */}
