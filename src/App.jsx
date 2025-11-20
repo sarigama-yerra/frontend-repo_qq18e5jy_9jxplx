@@ -3,6 +3,11 @@ import Hero from './components/Hero'
 import Offers from './components/Offers'
 import FAQ from './components/FAQ'
 import Testimonials from './components/Testimonials'
+import Story from './components/Story'
+import PackagesDeep from './components/PackagesDeep'
+import WhyNow from './components/WhyNow'
+import BigCTA from './components/BigCTA'
+import DeepTestimonials from './components/DeepTestimonials'
 
 function App() {
   const offersRef = useRef(null)
@@ -38,6 +43,9 @@ function App() {
       <main className="relative z-10">
         <Hero onPrimaryClick={scrollToOffers} />
 
+        {/* Long-form narrative */}
+        <Story />
+
         {/* Pain bullets section */}
         <section className="max-w-6xl mx-auto px-6 py-10">
           <div className="grid md:grid-cols-3 gap-6">
@@ -68,6 +76,9 @@ function App() {
           <Offers />
         </div>
 
+        {/* Deep packages breakdown */}
+        <PackagesDeep />
+
         {/* Social proof headline */}
         <section id="utisci" className="max-w-5xl mx-auto px-6 pt-6">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
@@ -77,22 +88,18 @@ function App() {
         </section>
 
         <Testimonials />
+        <DeepTestimonials />
+
+        {/* Why now section */}
+        <WhyNow />
 
         {/* FAQ */}
         <div id="faq">
           <FAQ />
         </div>
 
-        {/* CTA */}
-        <section className="py-16">
-          <div className="max-w-3xl mx-auto text-center px-6">
-            <h3 className="text-3xl md:text-4xl font-extrabold text-white">Budi glavni igrač u sopstvenoj priči</h3>
-            <p className="mt-3 text-blue-200/90">Klikni, popuni podatke i potvrdi. Pristup stiže odmah na email – čitaš sa telefona.</p>
-            <button onClick={scrollToOffers} className="mt-6 inline-flex items-center justify-center px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white font-semibold shadow-lg shadow-red-600/30 hover:from-red-500 hover:to-rose-500 transition">
-              PREUZMI SVOJ ARSENAL
-            </button>
-          </div>
-        </section>
+        {/* Big CTA */}
+        <BigCTA onClick={scrollToOffers} />
       </main>
 
       {/* Footer */}
